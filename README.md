@@ -94,7 +94,11 @@ Usage of ./empfetcher:
  
  **empfetcher** Service base URL: **http://localhost:8080/api/v1/employees/**
  
- * Add - Adds a new employee record
+ * Add - Adds a new employee record.
+   Everytime **Unique ID** will get generated for employee ID. I used '**Google UUID**' to generate the unique ID's.
+   ```
+   p.ID = guuid.New().String()
+   ```
  ![Alt text](screenshots/Add.png?raw=true "")
  
  * Update - Updates existing employee record
@@ -106,7 +110,7 @@ Usage of ./empfetcher:
  * List - Lists all the employee records
  ![Alt text](screenshots/List.png?raw=true "")
  
- * Show- Shows the employee record based on id
+ * Show- Shows the employee record based on id.
   ![Alt text](screenshots/Show.png?raw=true "")
  
  * Delete - Deletes employee record - **softDelete** if **permdelete** flag is not passed.

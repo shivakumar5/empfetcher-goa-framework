@@ -4,7 +4,8 @@ This repo contains code for RESTful API Services using **Goa** framework
 
 ## Design file
 The Service has been implemented using Goa framework which is built on top of Go and it uses built-in DSL that allows describing the design of the microservice
-for more details: https://goa.design/learn/intro/
+
+For more details: https://goa.design/learn/intro/
 
 The below file contains the code for **design** of micro service
 This is where our design of Micro-service starts, we need to mention all our methods/endpoints for API here

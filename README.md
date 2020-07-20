@@ -95,7 +95,10 @@ Usage of ./empfetcher:
  ![Alt text](screenshots/Add.png?raw=true "")
  
  * Update - Updates existing employee record
- It is not yet implemented due to time constrains. here, the multipart upload has to be implemented
+ It is **Not yet implemented** due to time constrains. here, the multipart upload has to be implemented.
+
+
+
  
  * List - Lists all the employee records
  ![Alt text](screenshots/List.png?raw=true "")
@@ -111,6 +114,8 @@ Usage of ./empfetcher:
  
  * Viewdeleted - Lists all the deactived employee records
 ![Alt text](screenshots/View.png?raw=true "")
+
+
  
  * Search - Not yet implemented due to time constraints
  

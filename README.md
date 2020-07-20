@@ -1,7 +1,6 @@
 # empfetcher
 This repo contains code for RESTful API Services using **Goa** framework
 
-
 ## Design file
 The Service has been implemented using Goa framework which is built on top of Go and it uses built-in DSL that allows describing the design of the microservice
 
@@ -21,8 +20,8 @@ The Service has below endpoints:
 * Delete
 * Restore
 * Viewdeleted 
-* Search (YTBD)
-
+* Search
+  
 ## Database
 I have used **MSSQL SERVER** for database operations
 The below file contains the code for SQL Operations:

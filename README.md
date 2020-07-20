@@ -96,9 +96,10 @@ Usage of ./empfetcher:
  
  * Add - Adds a new employee record.
    Everytime **Unique ID** will get generated for employee ID. I used '**Google UUID**' to generate the unique ID's.
-   ```
-   p.ID = guuid.New().String()
-   ```
+```
+   p.ID = guuid.New().String() 
+```
+* generates unique id for employee's new record
  ![Alt text](screenshots/Add.png?raw=true "")
  
  * Update - Updates existing employee record
@@ -118,10 +119,9 @@ Usage of ./empfetcher:
  
  * Viewdeleted - Lists all the deactived employee records
 ![Alt text](screenshots/View.png?raw=true "")
-
-
  
- * Search - Not yet implemented due to time constraints
+ * Search - Filters employee records based on searh string in response body
+  ![Alt text](screenshots/Search.png?raw=true "")
  
  
  

@@ -40,6 +40,13 @@ type UpdateRequestBody struct {
 	Skills *string `form:"skills,omitempty" json:"skills,omitempty" xml:"skills,omitempty"`
 }
 
+// SearchRequestBody is the type of the "empfetcher" service "search" endpoint
+// HTTP request body.
+type SearchRequestBody struct {
+	// Search to search employee records
+	SearchString *string `form:"searchString,omitempty" json:"searchString,omitempty" xml:"searchString,omitempty"`
+}
+
 // ListResponseBody is the type of the "empfetcher" service "list" endpoint
 // HTTP response body.
 type ListResponseBody []*EmployeePayloadResponse
@@ -1456,9 +1463,10 @@ func NewRestorePayload(id string) *empfetcher.RestorePayload {
 }
 
 // NewSearchPayload builds a empfetcher service search endpoint payload.
-func NewSearchPayload(name string) *empfetcher.SearchPayload {
-	v := &empfetcher.SearchPayload{}
-	v.Name = name
+func NewSearchPayload(body *SearchRequestBody) *empfetcher.SearchPayload {
+	v := &empfetcher.SearchPayload{
+		SearchString: *body.SearchString,
+	}
 
 	return v
 }
@@ -1496,6 +1504,14 @@ func ValidateUpdateRequestBody(body *UpdateRequestBody) (err error) {
 	}
 	if body.Skills == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("skills", "body"))
+	}
+	return
+}
+
+// ValidateSearchRequestBody runs the validations defined on SearchRequestBody
+func ValidateSearchRequestBody(body *SearchRequestBody) (err error) {
+	if body.SearchString == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("searchString", "body"))
 	}
 	return
 }

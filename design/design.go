@@ -126,12 +126,12 @@ var _ = Service("empfetcher", func() {
 	Method("search", func() {
 		Description("Search employees by name")
 		Payload(func() {
-			Field(1, "name", String, "Name of an employee")
-			Required("name")
+			Field(1, "searchString", String, "Search to search employee records")
+			Required("searchString")
 		})
 		Result(ArrayOf(EmployeeData))
 		HTTP(func() {
-			GET("/search/{name}")
+			GET("/search")
 			Response(StatusOK)
 			Response(StatusNotFound)
 		})

@@ -996,17 +996,7 @@ func DecodeViewdeletedResponse(decoder func(*http.Response) goahttp.Decoder, res
 // BuildSearchRequest instantiates a HTTP request object with method and path
 // set to call the "empfetcher" service "search" endpoint
 func (c *Client) BuildSearchRequest(ctx context.Context, v interface{}) (*http.Request, error) {
-	var (
-		name string
-	)
-	{
-		p, ok := v.(*empfetcher.SearchPayload)
-		if !ok {
-			return nil, goahttp.ErrInvalidType("empfetcher", "search", "*empfetcher.SearchPayload", v)
-		}
-		name = p.Name
-	}
-	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: SearchEmpfetcherPath(name)}
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: SearchEmpfetcherPath()}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		return nil, goahttp.ErrInvalidURL("empfetcher", "search", u.String(), err)
@@ -1016,6 +1006,22 @@ func (c *Client) BuildSearchRequest(ctx context.Context, v interface{}) (*http.R
 	}
 
 	return req, nil
+}
+
+// EncodeSearchRequest returns an encoder for requests sent to the empfetcher
+// search server.
+func EncodeSearchRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, interface{}) error {
+	return func(req *http.Request, v interface{}) error {
+		p, ok := v.(*empfetcher.SearchPayload)
+		if !ok {
+			return goahttp.ErrInvalidType("empfetcher", "search", "*empfetcher.SearchPayload", v)
+		}
+		body := NewSearchRequestBody(p)
+		if err := encoder(req).Encode(&body); err != nil {
+			return goahttp.ErrEncodingError("empfetcher", "search", err)
+		}
+		return nil
+	}
 }
 
 // DecodeSearchResponse returns a decoder for responses returned by the

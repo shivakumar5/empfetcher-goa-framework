@@ -69,7 +69,7 @@ func New(
 			{"Delete", "DELETE", "/api/v1/employees/{id}"},
 			{"Restore", "PUT", "/api/v1/employees/{id}"},
 			{"Viewdeleted", "GET", "/api/v1/employees/deactivated"},
-			{"Search", "GET", "/api/v1/employees/search/{name}"},
+			{"Search", "GET", "/api/v1/employees/search"},
 		},
 		Add:         NewAddHandler(e.Add, mux, decoder, encoder, errhandler, formatter),
 		Update:      NewUpdateHandler(e.Update, mux, decoder, encoder, errhandler, formatter),
@@ -461,7 +461,7 @@ func MountSearchHandler(mux goahttp.Muxer, h http.Handler) {
 			h.ServeHTTP(w, r)
 		}
 	}
-	mux.Handle("GET", "/api/v1/employees/search/{name}", f)
+	mux.Handle("GET", "/api/v1/employees/search", f)
 }
 
 // NewSearchHandler creates a HTTP handler which loads the HTTP request and

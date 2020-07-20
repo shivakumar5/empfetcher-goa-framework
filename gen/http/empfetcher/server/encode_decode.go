@@ -759,12 +759,21 @@ func EncodeSearchResponse(encoder func(context.Context, http.ResponseWriter) goa
 func DecodeSearchRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (interface{}, error) {
 	return func(r *http.Request) (interface{}, error) {
 		var (
-			name string
-
-			params = mux.Vars(r)
+			body SearchRequestBody
+			err  error
 		)
-		name = params["name"]
-		payload := NewSearchPayload(name)
+		err = decoder(r).Decode(&body)
+		if err != nil {
+			if err == io.EOF {
+				return nil, goa.MissingPayloadError()
+			}
+			return nil, goa.DecodePayloadError(err.Error())
+		}
+		err = ValidateSearchRequestBody(&body)
+		if err != nil {
+			return nil, err
+		}
+		payload := NewSearchPayload(&body)
 
 		return payload, nil
 	}

@@ -79,8 +79,8 @@ type RestorePayload struct {
 
 // SearchPayload is the payload type of the empfetcher service search method.
 type SearchPayload struct {
-	// Name of an employee
-	Name string
+	// Search to search employee records
+	SearchString string
 }
 
 // MakeUnauthorized builds a goa.ServiceError from an error.

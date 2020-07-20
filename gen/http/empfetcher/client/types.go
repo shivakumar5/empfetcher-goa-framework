@@ -40,6 +40,13 @@ type UpdateRequestBody struct {
 	Skills string `form:"skills" json:"skills" xml:"skills"`
 }
 
+// SearchRequestBody is the type of the "empfetcher" service "search" endpoint
+// HTTP request body.
+type SearchRequestBody struct {
+	// Search to search employee records
+	SearchString string `form:"searchString" json:"searchString" xml:"searchString"`
+}
+
 // ListResponseBody is the type of the "empfetcher" service "list" endpoint
 // HTTP response body.
 type ListResponseBody []*EmployeePayloadResponse
@@ -836,6 +843,15 @@ func NewUpdateRequestBody(p *empfetcher.EmployeePayload) *UpdateRequestBody {
 		Department: p.Department,
 		Address:    p.Address,
 		Skills:     p.Skills,
+	}
+	return body
+}
+
+// NewSearchRequestBody builds the HTTP request body from the payload of the
+// "search" endpoint of the "empfetcher" service.
+func NewSearchRequestBody(p *empfetcher.SearchPayload) *SearchRequestBody {
+	body := &SearchRequestBody{
+		SearchString: p.SearchString,
 	}
 	return body
 }

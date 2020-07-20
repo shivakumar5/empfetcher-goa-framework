@@ -24,6 +24,7 @@ type (
 		Delete(context.Context, types.DeletePayload) error
 		Restore(context.Context, types.RestorePayload) error
 		Viewdeleted(context.Context) ([]*types.EmployeePayload, error)
+		Search(context.Context, types.SearchPayload) ([]*types.EmployeePayload, error)
 	}
 	client struct {
 		mssql string
@@ -255,4 +256,29 @@ func (c *client) Viewdeleted(ctx context.Context) (empData []*types.EmployeePayl
 	}
 	return empData, nil
 
+}
+
+// Show - Employee data based on Unique ID
+func (c *client) Search(ctx context.Context, matchParam types.SearchPayload) (empData []*types.EmployeePayload, err error) {
+	svc, err := c.OpenConnection()
+	if err != nil {
+		ConnectionEr := errors.New("Connection to MSSQL Database failed")
+		return nil, ConnectionEr
+	}
+	defer svc.Close()
+	sqlStatement := `Select id, name, department, address, skills from EmployeeData where name like '%` + matchParam.SearchString + `%' or department like '%` + matchParam.SearchString + `%' or address like '%` + matchParam.SearchString + `%' or skills like '%` + matchParam.SearchString + `%'`
+	rows, err := svc.Query(sqlStatement)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var item types.EmployeePayload
+		err = rows.Scan(&item.ID, &item.Name, &item.Department, &item.Address, &item.Skills)
+		if err != nil {
+			return nil, err
+		}
+		empData = append(empData, &item)
+	}
+	return empData, nil
 }

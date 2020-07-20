@@ -73,7 +73,7 @@ func ParseEndpoint(
 		empfetcherViewdeletedFlags = flag.NewFlagSet("viewdeleted", flag.ExitOnError)
 
 		empfetcherSearchFlags    = flag.NewFlagSet("search", flag.ExitOnError)
-		empfetcherSearchNameFlag = empfetcherSearchFlags.String("name", "REQUIRED", "Name of an employee")
+		empfetcherSearchBodyFlag = empfetcherSearchFlags.String("body", "REQUIRED", "")
 	)
 	empfetcherFlags.Usage = empfetcherUsage
 	empfetcherAddFlags.Usage = empfetcherAddUsage
@@ -191,7 +191,7 @@ func ParseEndpoint(
 				data = nil
 			case "search":
 				endpoint = c.Search()
-				data, err = empfetcherc.BuildSearchPayload(*empfetcherSearchNameFlag)
+				data, err = empfetcherc.BuildSearchPayload(*empfetcherSearchBodyFlag)
 			}
 		}
 	}
@@ -312,12 +312,14 @@ Example:
 }
 
 func empfetcherSearchUsage() {
-	fmt.Fprintf(os.Stderr, `%s [flags] empfetcher search -name STRING
+	fmt.Fprintf(os.Stderr, `%s [flags] empfetcher search -body JSON
 
 Search employees by name
-    -name STRING: Name of an employee
+    -body JSON: 
 
 Example:
-    `+os.Args[0]+` empfetcher search --name "Earum aut unde."
+    `+os.Args[0]+` empfetcher search --body '{
+      "searchString": "Non illum et aspernatur."
+   }'
 `, os.Args[0])
 }

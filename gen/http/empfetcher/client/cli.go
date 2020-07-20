@@ -115,13 +115,18 @@ func BuildRestorePayload(empfetcherRestoreID string) (*empfetcher.RestorePayload
 
 // BuildSearchPayload builds the payload for the empfetcher search endpoint
 // from CLI flags.
-func BuildSearchPayload(empfetcherSearchName string) (*empfetcher.SearchPayload, error) {
-	var name string
+func BuildSearchPayload(empfetcherSearchBody string) (*empfetcher.SearchPayload, error) {
+	var err error
+	var body SearchRequestBody
 	{
-		name = empfetcherSearchName
+		err = json.Unmarshal([]byte(empfetcherSearchBody), &body)
+		if err != nil {
+			return nil, fmt.Errorf("invalid JSON for body, example of valid JSON:\n%s", "'{\n      \"searchString\": \"Non illum et aspernatur.\"\n   }'")
+		}
 	}
-	v := &empfetcher.SearchPayload{}
-	v.Name = name
+	v := &empfetcher.SearchPayload{
+		SearchString: body.SearchString,
+	}
 
 	return v, nil
 }

@@ -32,7 +32,6 @@ func (s *empfetchersrvc) Add(ctx context.Context, p *empfetcher.EmployeePayload)
 }
 
 // Updates an Employee Details
-// TO DO: Yet to implement the code for Update
 func (s *empfetchersrvc) Update(ctx context.Context, p *empfetcher.EmployeePayload) (err error) {
 	log.Print("empfetcher.update")
 	err = s.mssqlc.Update(ctx, *p)
@@ -93,8 +92,11 @@ func (s *empfetchersrvc) Viewdeleted(ctx context.Context) (res []*empfetcher.Emp
 }
 
 // Search employees by name
-// TO DO: Yet to implement the code for Search
 func (s *empfetchersrvc) Search(ctx context.Context, p *empfetcher.SearchPayload) (res []*empfetcher.EmployeePayload, err error) {
 	log.Print("empfetcher.search")
-	return
+	res, err = s.mssqlc.Search(ctx, *p)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }

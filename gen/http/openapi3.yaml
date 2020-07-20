@@ -49,6 +49,11 @@ paths:
                 id: fgfhjsddctybnjgjh
                 name: shiva
                 skills: golang, docker
+              - address: Bangalore
+                department: development
+                id: fgfhjsddctybnjgjh
+                name: shiva
+                skills: golang, docker
         "400":
           description: ""
           content:
@@ -97,11 +102,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/AddRequestBody'
                 example:
-                - address: Bangalore
-                  department: development
-                  id: fgfhjsddctybnjgjh
-                  name: shiva
-                  skills: golang, docker
                 - address: Bangalore
                   department: development
                   id: fgfhjsddctybnjgjh
@@ -259,7 +259,7 @@ paths:
           type: boolean
           description: Delete Permanently if this is yes
           default: 0
-          example: true
+          example: false
         example: false
       - name: id
         in: path
@@ -268,8 +268,8 @@ paths:
         schema:
           type: string
           description: ID is the unique id of an employee
-          example: Quisquam voluptates adipisci debitis quia dicta molestiae.
-        example: Dolorum aut libero amet adipisci assumenda.
+          example: Rerum repudiandae unde eum.
+        example: Et qui provident.
       responses:
         "204":
           description: ""
@@ -355,8 +355,8 @@ paths:
         schema:
           type: string
           description: ID is the unique id of an employee
-          example: Dolorem inventore magnam velit quas voluptate provident.
-        example: Nihil repudiandae neque incidunt.
+          example: Quia dicta molestiae rerum dolorum aut libero.
+        example: Adipisci assumenda debitis in vitae nemo.
       responses:
         "200":
           description: ""
@@ -461,8 +461,8 @@ paths:
         schema:
           type: string
           description: ID is the unique id of an employee
-          example: In vitae nemo ut incidunt aut rerum.
-        example: Unde eum dolore et qui provident qui.
+          example: Blanditiis deleniti deleniti incidunt molestiae magnam.
+        example: Aliquam eius esse voluptate.
       responses:
         "204":
           description: ""
@@ -577,6 +577,11 @@ paths:
                 id: fgfhjsddctybnjgjh
                 name: shiva
                 skills: golang, docker
+              - address: Bangalore
+                department: development
+                id: fgfhjsddctybnjgjh
+                name: shiva
+                skills: golang, docker
         "400":
           description: ""
           content:
@@ -635,7 +640,17 @@ paths:
                   id: fgfhjsddctybnjgjh
                   name: shiva
                   skills: golang, docker
+                - address: Bangalore
+                  department: development
+                  id: fgfhjsddctybnjgjh
+                  name: shiva
+                  skills: golang, docker
               example:
+              - address: Bangalore
+                department: development
+                id: fgfhjsddctybnjgjh
+                name: shiva
+                skills: golang, docker
               - address: Bangalore
                 department: development
                 id: fgfhjsddctybnjgjh
@@ -677,23 +692,21 @@ paths:
                 name: bad_request
                 temporary: false
                 timeout: true
-  /api/v1/employees/search/{name}:
+  /api/v1/employees/search:
     get:
       tags:
       - empfetcher
       summary: search empfetcher
       description: Search employees by name
       operationId: empfetcher#search
-      parameters:
-      - name: name
-        in: path
-        description: Name of an employee
+      requestBody:
         required: true
-        schema:
-          type: string
-          description: Name of an employee
-          example: Incidunt molestiae magnam eum aliquam eius esse.
-        example: Non animi nesciunt molestias.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequestBody'
+            example:
+              searchString: Non illum et aspernatur.
       responses:
         "200":
           description: ""
@@ -714,6 +727,16 @@ paths:
                   id: fgfhjsddctybnjgjh
                   name: shiva
                   skills: golang, docker
+                - address: Bangalore
+                  department: development
+                  id: fgfhjsddctybnjgjh
+                  name: shiva
+                  skills: golang, docker
+                - address: Bangalore
+                  department: development
+                  id: fgfhjsddctybnjgjh
+                  name: shiva
+                  skills: golang, docker
               example:
               - address: Bangalore
                 department: development
@@ -746,7 +769,7 @@ paths:
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
-                temporary: true
+                temporary: false
                 timeout: false
         "401":
           description: ""
@@ -759,8 +782,8 @@ paths:
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
-                temporary: false
-                timeout: false
+                temporary: true
+                timeout: true
         "403":
           description: ""
           content:
@@ -772,7 +795,7 @@ paths:
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
-                temporary: false
+                temporary: true
                 timeout: false
         "404":
           description: ""
@@ -793,12 +816,12 @@ paths:
                   id: fgfhjsddctybnjgjh
                   name: shiva
                   skills: golang, docker
+                - address: Bangalore
+                  department: development
+                  id: fgfhjsddctybnjgjh
+                  name: shiva
+                  skills: golang, docker
               example:
-              - address: Bangalore
-                department: development
-                id: fgfhjsddctybnjgjh
-                name: shiva
-                skills: golang, docker
               - address: Bangalore
                 department: development
                 id: fgfhjsddctybnjgjh
@@ -816,7 +839,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                fault: true
+                fault: false
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
@@ -833,7 +856,7 @@ paths:
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
-                temporary: false
+                temporary: true
                 timeout: false
   /api/v1/employees/update/{id}:
     put:
@@ -977,7 +1000,7 @@ components:
         fault:
           type: boolean
           description: Is the error a server-side fault?
-          example: false
+          example: true
         id:
           type: string
           description: ID is a unique identifier for this particular occurrence of the problem.
@@ -997,10 +1020,10 @@ components:
         timeout:
           type: boolean
           description: Is the error a timeout?
-          example: false
+          example: true
       description: This error occurs if the request doesn't have a valid JWT token
       example:
-        fault: true
+        fault: false
         id: 123abc
         message: parameter 'p' must be an integer
         name: bad_request
@@ -1013,6 +1036,17 @@ components:
       - temporary
       - timeout
       - fault
+    SearchRequestBody:
+      type: object
+      properties:
+        searchString:
+          type: string
+          description: Search to search employee records
+          example: Quas voluptate provident dolorem nihil.
+      example:
+        searchString: Neque incidunt porro quis.
+      required:
+      - searchString
     UpdateRequestBody:
       type: object
       properties:

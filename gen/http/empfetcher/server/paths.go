@@ -47,6 +47,6 @@ func ViewdeletedEmpfetcherPath() string {
 }
 
 // SearchEmpfetcherPath returns the URL path to the empfetcher service search HTTP endpoint.
-func SearchEmpfetcherPath(name string) string {
-	return fmt.Sprintf("/api/v1/employees/search/%v", name)
+func SearchEmpfetcherPath() string {
+	return "/api/v1/employees/search"
 }

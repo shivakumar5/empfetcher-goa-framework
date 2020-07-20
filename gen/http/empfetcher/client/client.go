@@ -231,10 +231,15 @@ func (c *Client) Viewdeleted() goa.Endpoint {
 // service search server.
 func (c *Client) Search() goa.Endpoint {
 	var (
+		encodeRequest  = EncodeSearchRequest(c.encoder)
 		decodeResponse = DecodeSearchResponse(c.decoder, c.RestoreResponseBody)
 	)
 	return func(ctx context.Context, v interface{}) (interface{}, error) {
 		req, err := c.BuildSearchRequest(ctx, v)
+		if err != nil {
+			return nil, err
+		}
+		err = encodeRequest(req, v)
 		if err != nil {
 			return nil, err
 		}

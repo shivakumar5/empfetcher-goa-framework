@@ -75,6 +75,7 @@ var _ = Service("empfetcher", func() {
 		Error("not_found")
 		HTTP(func() {
 			GET("/{id}")
+			Response(StatusOK)
 			Response(StatusNotFound)
 		})
 

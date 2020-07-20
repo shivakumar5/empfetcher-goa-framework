@@ -243,95 +243,6 @@ paths:
                 name: bad_request
                 temporary: true
                 timeout: true
-    put:
-      tags:
-      - empfetcher
-      summary: update empfetcher
-      description: Updates an Employee Details
-      operationId: empfetcher#update
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddRequestBody'
-            example:
-              address: Bangalore
-              department: development
-              id: fgfhjsddctybnjgjh
-              name: shiva
-              skills: golang, docker
-      responses:
-        "204":
-          description: ""
-          content:
-            application/json:
-              example: {}
-        "400":
-          description: ""
-          content:
-            application/vnd.goa.error:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                fault: false
-                id: 123abc
-                message: parameter 'p' must be an integer
-                name: bad_request
-                temporary: false
-                timeout: false
-        "401":
-          description: ""
-          content:
-            application/vnd.goa.error:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                fault: true
-                id: 123abc
-                message: parameter 'p' must be an integer
-                name: bad_request
-                temporary: false
-                timeout: false
-        "403":
-          description: ""
-          content:
-            application/vnd.goa.error:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                fault: true
-                id: 123abc
-                message: parameter 'p' must be an integer
-                name: bad_request
-                temporary: false
-                timeout: false
-        "500":
-          description: ""
-          content:
-            application/vnd.goa.error:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                fault: false
-                id: 123abc
-                message: parameter 'p' must be an integer
-                name: bad_request
-                temporary: false
-                timeout: true
-        "502":
-          description: ""
-          content:
-            application/vnd.goa.error:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                fault: false
-                id: 123abc
-                message: parameter 'p' must be an integer
-                name: bad_request
-                temporary: true
-                timeout: true
   /api/v1/employees/{id}:
     delete:
       tags:
@@ -447,6 +358,18 @@ paths:
           example: Dolorem inventore magnam velit quas voluptate provident.
         example: Nihil repudiandae neque incidunt.
       responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddRequestBody'
+              example:
+                address: Bangalore
+                department: development
+                id: fgfhjsddctybnjgjh
+                name: shiva
+                skills: golang, docker
         "400":
           description: ""
           content:
@@ -912,6 +835,105 @@ paths:
                 name: bad_request
                 temporary: false
                 timeout: false
+  /api/v1/employees/update/{id}:
+    put:
+      tags:
+      - empfetcher
+      summary: update empfetcher
+      description: Updates an Employee Details
+      operationId: empfetcher#update
+      parameters:
+      - name: id
+        in: path
+        description: Unique ID of an Employee
+        required: true
+        schema:
+          type: string
+          description: Unique ID of an Employee
+          example: fgfhjsddctybnjgjh
+        example: fgfhjsddctybnjgjh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequestBody'
+            example:
+              address: Bangalore
+              department: development
+              name: shiva
+              skills: golang, docker
+      responses:
+        "204":
+          description: ""
+          content:
+            application/json:
+              example: {}
+        "400":
+          description: ""
+          content:
+            application/vnd.goa.error:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                fault: false
+                id: 123abc
+                message: parameter 'p' must be an integer
+                name: bad_request
+                temporary: false
+                timeout: false
+        "401":
+          description: ""
+          content:
+            application/vnd.goa.error:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                fault: true
+                id: 123abc
+                message: parameter 'p' must be an integer
+                name: bad_request
+                temporary: false
+                timeout: false
+        "403":
+          description: ""
+          content:
+            application/vnd.goa.error:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                fault: true
+                id: 123abc
+                message: parameter 'p' must be an integer
+                name: bad_request
+                temporary: false
+                timeout: false
+        "500":
+          description: ""
+          content:
+            application/vnd.goa.error:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                fault: false
+                id: 123abc
+                message: parameter 'p' must be an integer
+                name: bad_request
+                temporary: false
+                timeout: true
+        "502":
+          description: ""
+          content:
+            application/vnd.goa.error:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                fault: false
+                id: 123abc
+                message: parameter 'p' must be an integer
+                name: bad_request
+                temporary: true
+                timeout: true
 components:
   schemas:
     AddRequestBody:
@@ -991,3 +1013,32 @@ components:
       - temporary
       - timeout
       - fault
+    UpdateRequestBody:
+      type: object
+      properties:
+        address:
+          type: string
+          description: Address of an Employee
+          example: Bangalore
+        department:
+          type: string
+          description: The Department of an Employee
+          example: development
+        name:
+          type: string
+          description: Name of an Employee
+          example: shiva
+        skills:
+          type: string
+          description: Skillsets of an Employee
+          example: golang, docker
+      example:
+        address: Bangalore
+        department: development
+        name: shiva
+        skills: golang, docker
+      required:
+      - name
+      - department
+      - address
+      - skills

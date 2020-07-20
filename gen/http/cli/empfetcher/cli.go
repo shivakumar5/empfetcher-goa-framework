@@ -56,6 +56,7 @@ func ParseEndpoint(
 
 		empfetcherUpdateFlags    = flag.NewFlagSet("update", flag.ExitOnError)
 		empfetcherUpdateBodyFlag = empfetcherUpdateFlags.String("body", "REQUIRED", "")
+		empfetcherUpdateIDFlag   = empfetcherUpdateFlags.String("id", "REQUIRED", "Unique ID of an Employee")
 
 		empfetcherListFlags = flag.NewFlagSet("list", flag.ExitOnError)
 
@@ -172,7 +173,7 @@ func ParseEndpoint(
 				data, err = empfetcherc.BuildAddPayload(*empfetcherAddBodyFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = empfetcherc.BuildUpdatePayload(*empfetcherUpdateBodyFlag)
+				data, err = empfetcherc.BuildUpdatePayload(*empfetcherUpdateBodyFlag, *empfetcherUpdateIDFlag)
 			case "list":
 				endpoint = c.List()
 				data = nil
@@ -240,19 +241,19 @@ Example:
 }
 
 func empfetcherUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%s [flags] empfetcher update -body JSON
+	fmt.Fprintf(os.Stderr, `%s [flags] empfetcher update -body JSON -id STRING
 
 Updates an Employee Details
     -body JSON: 
+    -id STRING: Unique ID of an Employee
 
 Example:
     `+os.Args[0]+` empfetcher update --body '{
       "address": "Bangalore",
       "department": "development",
-      "id": "fgfhjsddctybnjgjh",
       "name": "shiva",
       "skills": "golang, docker"
-   }'
+   }' --id "fgfhjsddctybnjgjh"
 `, os.Args[0])
 }
 

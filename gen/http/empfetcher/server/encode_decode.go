@@ -156,7 +156,14 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 		if err != nil {
 			return nil, err
 		}
-		payload := NewUpdateEmployeePayload(&body)
+
+		var (
+			id string
+
+			params = mux.Vars(r)
+		)
+		id = params["id"]
+		payload := NewUpdateEmployeePayload(&body, id)
 
 		return payload, nil
 	}
@@ -332,8 +339,8 @@ func EncodeShowResponse(encoder func(context.Context, http.ResponseWriter) goaht
 	return func(ctx context.Context, w http.ResponseWriter, v interface{}) error {
 		res := v.(*empfetcher.EmployeePayload)
 		enc := encoder(ctx, w)
-		body := NewShowResponseBody(res)
-		w.WriteHeader(http.StatusNotFound)
+		body := NewShowOKResponseBody(res)
+		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
 	}
 }

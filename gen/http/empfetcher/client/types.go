@@ -30,8 +30,6 @@ type AddRequestBody struct {
 // UpdateRequestBody is the type of the "empfetcher" service "update" endpoint
 // HTTP request body.
 type UpdateRequestBody struct {
-	// Unique ID of an Employee
-	ID string `form:"id" json:"id" xml:"id"`
 	// Name of an Employee
 	Name string `form:"name" json:"name" xml:"name"`
 	// The Department of an Employee
@@ -46,9 +44,9 @@ type UpdateRequestBody struct {
 // HTTP response body.
 type ListResponseBody []*EmployeePayloadResponse
 
-// ShowResponseBody is the type of the "empfetcher" service "show" endpoint
+// ShowOKResponseBody is the type of the "empfetcher" service "show" endpoint
 // HTTP response body.
-type ShowResponseBody struct {
+type ShowOKResponseBody struct {
 	// Unique ID of an Employee
 	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// Name of an Employee
@@ -803,6 +801,20 @@ type EmployeePayloadResponse struct {
 	Skills *string `form:"skills,omitempty" json:"skills,omitempty" xml:"skills,omitempty"`
 }
 
+// ShowNotFoundResponseBody is used to define fields on response body types.
+type ShowNotFoundResponseBody struct {
+	// Unique ID of an Employee
+	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Name of an Employee
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// The Department of an Employee
+	Department *string `form:"department,omitempty" json:"department,omitempty" xml:"department,omitempty"`
+	// Address of an Employee
+	Address *string `form:"address,omitempty" json:"address,omitempty" xml:"address,omitempty"`
+	// Skillsets of an Employee
+	Skills *string `form:"skills,omitempty" json:"skills,omitempty" xml:"skills,omitempty"`
+}
+
 // NewAddRequestBody builds the HTTP request body from the payload of the "add"
 // endpoint of the "empfetcher" service.
 func NewAddRequestBody(p *empfetcher.EmployeePayload) *AddRequestBody {
@@ -820,7 +832,6 @@ func NewAddRequestBody(p *empfetcher.EmployeePayload) *AddRequestBody {
 // "update" endpoint of the "empfetcher" service.
 func NewUpdateRequestBody(p *empfetcher.EmployeePayload) *UpdateRequestBody {
 	body := &UpdateRequestBody{
-		ID:         p.ID,
 		Name:       p.Name,
 		Department: p.Department,
 		Address:    p.Address,
@@ -1060,9 +1071,9 @@ func NewListInternalError(body *ListInternalErrorResponseBody) *goa.ServiceError
 	return v
 }
 
-// NewShowEmployeePayloadNotFound builds a "empfetcher" service "show" endpoint
-// result from a HTTP "NotFound" response.
-func NewShowEmployeePayloadNotFound(body *ShowResponseBody) *empfetcher.EmployeePayload {
+// NewShowEmployeePayloadOK builds a "empfetcher" service "show" endpoint
+// result from a HTTP "OK" response.
+func NewShowEmployeePayloadOK(body *ShowOKResponseBody) *empfetcher.EmployeePayload {
 	v := &empfetcher.EmployeePayload{
 		ID:         *body.ID,
 		Name:       *body.Name,
@@ -1468,8 +1479,8 @@ func NewSearchInternalError(body *SearchInternalErrorResponseBody) *goa.ServiceE
 	return v
 }
 
-// ValidateShowResponseBody runs the validations defined on ShowResponseBody
-func ValidateShowResponseBody(body *ShowResponseBody) (err error) {
+// ValidateShowOKResponseBody runs the validations defined on ShowOKResponseBody
+func ValidateShowOKResponseBody(body *ShowOKResponseBody) (err error) {
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}
@@ -2451,6 +2462,27 @@ func ValidateSearchInternalErrorResponseBody(body *SearchInternalErrorResponseBo
 // ValidateEmployeePayloadResponse runs the validations defined on
 // EmployeePayloadResponse
 func ValidateEmployeePayloadResponse(body *EmployeePayloadResponse) (err error) {
+	if body.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
+	}
+	if body.Name == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
+	}
+	if body.Department == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("department", "body"))
+	}
+	if body.Address == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("address", "body"))
+	}
+	if body.Skills == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("skills", "body"))
+	}
+	return
+}
+
+// ValidateShowNotFoundResponseBody runs the validations defined on ShowNot
+// FoundResponseBody
+func ValidateShowNotFoundResponseBody(body *ShowNotFoundResponseBody) (err error) {
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}

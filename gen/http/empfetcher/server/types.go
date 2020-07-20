@@ -30,8 +30,6 @@ type AddRequestBody struct {
 // UpdateRequestBody is the type of the "empfetcher" service "update" endpoint
 // HTTP request body.
 type UpdateRequestBody struct {
-	// Unique ID of an Employee
-	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// Name of an Employee
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// The Department of an Employee
@@ -46,9 +44,9 @@ type UpdateRequestBody struct {
 // HTTP response body.
 type ListResponseBody []*EmployeePayloadResponse
 
-// ShowResponseBody is the type of the "empfetcher" service "show" endpoint
+// ShowOKResponseBody is the type of the "empfetcher" service "show" endpoint
 // HTTP response body.
-type ShowResponseBody struct {
+type ShowOKResponseBody struct {
 	// Unique ID of an Employee
 	ID string `form:"id" json:"id" xml:"id"`
 	// Name of an Employee
@@ -813,10 +811,10 @@ func NewListResponseBody(res []*empfetcher.EmployeePayload) ListResponseBody {
 	return body
 }
 
-// NewShowResponseBody builds the HTTP response body from the result of the
+// NewShowOKResponseBody builds the HTTP response body from the result of the
 // "show" endpoint of the "empfetcher" service.
-func NewShowResponseBody(res *empfetcher.EmployeePayload) *ShowResponseBody {
-	body := &ShowResponseBody{
+func NewShowOKResponseBody(res *empfetcher.EmployeePayload) *ShowOKResponseBody {
+	body := &ShowOKResponseBody{
 		ID:         res.ID,
 		Name:       res.Name,
 		Department: res.Department,
@@ -1420,14 +1418,14 @@ func NewAddEmployeePayload(body *AddRequestBody) *empfetcher.EmployeePayload {
 }
 
 // NewUpdateEmployeePayload builds a empfetcher service update endpoint payload.
-func NewUpdateEmployeePayload(body *UpdateRequestBody) *empfetcher.EmployeePayload {
+func NewUpdateEmployeePayload(body *UpdateRequestBody, id string) *empfetcher.EmployeePayload {
 	v := &empfetcher.EmployeePayload{
-		ID:         *body.ID,
 		Name:       *body.Name,
 		Department: *body.Department,
 		Address:    *body.Address,
 		Skills:     *body.Skills,
 	}
+	v.ID = id
 
 	return v
 }
@@ -1487,9 +1485,6 @@ func ValidateAddRequestBody(body *AddRequestBody) (err error) {
 
 // ValidateUpdateRequestBody runs the validations defined on UpdateRequestBody
 func ValidateUpdateRequestBody(body *UpdateRequestBody) (err error) {
-	if body.ID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
-	}
 	if body.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
 	}

@@ -39,22 +39,26 @@ func BuildAddPayload(empfetcherAddBody string) (*empfetcher.EmployeePayload, err
 
 // BuildUpdatePayload builds the payload for the empfetcher update endpoint
 // from CLI flags.
-func BuildUpdatePayload(empfetcherUpdateBody string) (*empfetcher.EmployeePayload, error) {
+func BuildUpdatePayload(empfetcherUpdateBody string, empfetcherUpdateID string) (*empfetcher.EmployeePayload, error) {
 	var err error
 	var body UpdateRequestBody
 	{
 		err = json.Unmarshal([]byte(empfetcherUpdateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, example of valid JSON:\n%s", "'{\n      \"address\": \"Bangalore\",\n      \"department\": \"development\",\n      \"id\": \"fgfhjsddctybnjgjh\",\n      \"name\": \"shiva\",\n      \"skills\": \"golang, docker\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, example of valid JSON:\n%s", "'{\n      \"address\": \"Bangalore\",\n      \"department\": \"development\",\n      \"name\": \"shiva\",\n      \"skills\": \"golang, docker\"\n   }'")
 		}
 	}
+	var id string
+	{
+		id = empfetcherUpdateID
+	}
 	v := &empfetcher.EmployeePayload{
-		ID:         body.ID,
 		Name:       body.Name,
 		Department: body.Department,
 		Address:    body.Address,
 		Skills:     body.Skills,
 	}
+	v.ID = id
 
 	return v, nil
 }

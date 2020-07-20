@@ -48,7 +48,7 @@ var _ = Service("empfetcher", func() {
 		Payload(EmployeeData)
 		Error("not_found")
 		HTTP(func() {
-			PUT("/")
+			PUT("/update/{id}")
 			Response(StatusNoContent)
 		})
 

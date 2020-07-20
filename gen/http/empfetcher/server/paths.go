@@ -17,8 +17,8 @@ func AddEmpfetcherPath() string {
 }
 
 // UpdateEmpfetcherPath returns the URL path to the empfetcher service update HTTP endpoint.
-func UpdateEmpfetcherPath() string {
-	return "/api/v1/employees"
+func UpdateEmpfetcherPath(id string) string {
+	return fmt.Sprintf("/api/v1/employees/update/%v", id)
 }
 
 // ListEmpfetcherPath returns the URL path to the empfetcher service list HTTP endpoint.

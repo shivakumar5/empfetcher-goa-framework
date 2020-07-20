@@ -158,7 +158,17 @@ func DecodeAddResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody
 // BuildUpdateRequest instantiates a HTTP request object with method and path
 // set to call the "empfetcher" service "update" endpoint
 func (c *Client) BuildUpdateRequest(ctx context.Context, v interface{}) (*http.Request, error) {
-	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: UpdateEmpfetcherPath()}
+	var (
+		id string
+	)
+	{
+		p, ok := v.(*empfetcher.EmployeePayload)
+		if !ok {
+			return nil, goahttp.ErrInvalidType("empfetcher", "update", "*empfetcher.EmployeePayload", v)
+		}
+		id = p.ID
+	}
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: UpdateEmpfetcherPath(id)}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		return nil, goahttp.ErrInvalidURL("empfetcher", "update", u.String(), err)
@@ -478,20 +488,20 @@ func DecodeShowResponse(decoder func(*http.Response) goahttp.Decoder, restoreBod
 			defer resp.Body.Close()
 		}
 		switch resp.StatusCode {
-		case http.StatusNotFound:
+		case http.StatusOK:
 			var (
-				body ShowResponseBody
+				body ShowOKResponseBody
 				err  error
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
 				return nil, goahttp.ErrDecodingError("empfetcher", "show", err)
 			}
-			err = ValidateShowResponseBody(&body)
+			err = ValidateShowOKResponseBody(&body)
 			if err != nil {
 				return nil, goahttp.ErrValidationError("empfetcher", "show", err)
 			}
-			res := NewShowEmployeePayloadNotFound(&body)
+			res := NewShowEmployeePayloadOK(&body)
 			return res, nil
 		case http.StatusUnauthorized:
 			var (

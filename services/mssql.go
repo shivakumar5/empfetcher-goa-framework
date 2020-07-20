@@ -17,6 +17,7 @@ type (
 	Client interface {
 		Healthy(context.Context) error
 		Add(context.Context, *types.EmployeePayload) error
+		Update(context.Context, types.EmployeePayload) error
 		List(context.Context) ([]*types.EmployeePayload, error)
 		Show(context.Context, types.ShowPayload) (*types.EmployeePayload, error)
 		MarkAsDeleted(context.Context, types.DeletePayload) error
@@ -77,17 +78,34 @@ func (c *client) Add(ctx context.Context, empData *types.EmployeePayload) error 
 	return nil
 }
 
-//ToDO
-// // Update - update employee data
-// func (c *client) Update(empData types.EmployeePayload) {
-// 	fmt.Println("Updating")
+// Update - update employee data
+func (c *client) Update(ctx context.Context, empData types.EmployeePayload) error {
+	fmt.Println("Updating")
+	svc, err := c.OpenConnection()
+	if err != nil {
+		ConnectionEr := errors.New("Connection to MSSQL Database failed")
+		return ConnectionEr
+	}
+	defer svc.Close()
+	sqlStatement := `update EmployeeData set name = $1, department= $2, address = $3, skills = $4 where ID = $5 `
+	var rows sql.Result
+	rows, err = svc.Exec(sqlStatement, &empData.Name, &empData.Department, &empData.Address, &empData.Skills, &empData.ID)
 
-// 	db, err := c.OpenConnection()
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	defer db.Close()
-// }
+	var updatedRow int64
+	updatedRow, err = rows.RowsAffected()
+	if updatedRow == 0 {
+		noRecords := errors.New("No employee data to be updated")
+		log.Fatal("error: No employee data to be updated", err)
+		return noRecords
+	}
+	if err != nil {
+		unHandledEr := errors.New("Internal Error")
+		log.Fatal("error: Internal Error", err)
+		return unHandledEr
+	}
+	return nil
+
+}
 
 // List returns all the employee data
 func (c *client) List(ctx context.Context) (empData []*types.EmployeePayload, err error) {

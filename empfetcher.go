@@ -35,6 +35,10 @@ func (s *empfetchersrvc) Add(ctx context.Context, p *empfetcher.EmployeePayload)
 // TO DO: Yet to implement the code for Update
 func (s *empfetchersrvc) Update(ctx context.Context, p *empfetcher.EmployeePayload) (err error) {
 	log.Print("empfetcher.update")
+	err = s.mssqlc.Update(ctx, *p)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

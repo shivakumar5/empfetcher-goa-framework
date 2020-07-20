@@ -54,49 +54,6 @@ paths:
             $ref: '#/definitions/EmpfetcherListBadGatewayResponseBody'
       schemes:
       - http
-    put:
-      tags:
-      - empfetcher
-      summary: update empfetcher
-      description: Updates an Employee Details
-      operationId: empfetcher#update
-      parameters:
-      - name: UpdateRequestBody
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/EmpfetcherUpdateRequestBody'
-          required:
-          - id
-          - name
-          - department
-          - address
-          - skills
-      responses:
-        "204":
-          description: No Content response.
-        "400":
-          description: Bad Request response.
-          schema:
-            $ref: '#/definitions/EmpfetcherUpdateBadRequestResponseBody'
-        "401":
-          description: Unauthorized response.
-          schema:
-            $ref: '#/definitions/EmpfetcherUpdateUnauthorizedResponseBody'
-        "403":
-          description: Forbidden response.
-          schema:
-            $ref: '#/definitions/EmpfetcherUpdateForbiddenResponseBody'
-        "500":
-          description: Internal Server Error response.
-          schema:
-            $ref: '#/definitions/EmpfetcherUpdateInternalErrorResponseBody'
-        "502":
-          description: Bad Gateway response.
-          schema:
-            $ref: '#/definitions/EmpfetcherUpdateBadGatewayResponseBody'
-      schemes:
-      - http
     post:
       tags:
       - empfetcher
@@ -154,6 +111,16 @@ paths:
         required: true
         type: string
       responses:
+        "200":
+          description: OK response.
+          schema:
+            $ref: '#/definitions/EmpfetcherShowOKResponseBody'
+            required:
+            - id
+            - name
+            - department
+            - address
+            - skills
         "400":
           description: Bad Request response.
           schema:
@@ -169,7 +136,7 @@ paths:
         "404":
           description: Not Found response.
           schema:
-            $ref: '#/definitions/EmpfetcherShowResponseBody'
+            $ref: '#/definitions/EmpfetcherShowNotFoundResponseBody'
             required:
             - id
             - name
@@ -354,6 +321,54 @@ paths:
           description: Bad Gateway response.
           schema:
             $ref: '#/definitions/EmpfetcherSearchBadGatewayResponseBody'
+      schemes:
+      - http
+  /api/v1/employees/update/{id}:
+    put:
+      tags:
+      - empfetcher
+      summary: update empfetcher
+      description: Updates an Employee Details
+      operationId: empfetcher#update
+      parameters:
+      - name: id
+        in: path
+        description: Unique ID of an Employee
+        required: true
+        type: string
+      - name: UpdateRequestBody
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/EmpfetcherUpdateRequestBody'
+          required:
+          - name
+          - department
+          - address
+          - skills
+      responses:
+        "204":
+          description: No Content response.
+        "400":
+          description: Bad Request response.
+          schema:
+            $ref: '#/definitions/EmpfetcherUpdateBadRequestResponseBody'
+        "401":
+          description: Unauthorized response.
+          schema:
+            $ref: '#/definitions/EmpfetcherUpdateUnauthorizedResponseBody'
+        "403":
+          description: Forbidden response.
+          schema:
+            $ref: '#/definitions/EmpfetcherUpdateForbiddenResponseBody'
+        "500":
+          description: Internal Server Error response.
+          schema:
+            $ref: '#/definitions/EmpfetcherUpdateInternalErrorResponseBody'
+        "502":
+          description: Bad Gateway response.
+          schema:
+            $ref: '#/definitions/EmpfetcherUpdateBadGatewayResponseBody'
       schemes:
       - http
 definitions:
@@ -1640,8 +1655,44 @@ definitions:
     - temporary
     - timeout
     - fault
-  EmpfetcherShowResponseBody:
-    title: EmpfetcherShowResponseBody
+  EmpfetcherShowNotFoundResponseBody:
+    title: EmpfetcherShowNotFoundResponseBody
+    type: object
+    properties:
+      address:
+        type: string
+        description: Address of an Employee
+        example: Bangalore
+      department:
+        type: string
+        description: The Department of an Employee
+        example: development
+      id:
+        type: string
+        description: Unique ID of an Employee
+        example: fgfhjsddctybnjgjh
+      name:
+        type: string
+        description: Name of an Employee
+        example: shiva
+      skills:
+        type: string
+        description: Skillsets of an Employee
+        example: golang, docker
+    example:
+      address: Bangalore
+      department: development
+      id: fgfhjsddctybnjgjh
+      name: shiva
+      skills: golang, docker
+    required:
+    - id
+    - name
+    - department
+    - address
+    - skills
+  EmpfetcherShowOKResponseBody:
+    title: EmpfetcherShowOKResponseBody
     type: object
     properties:
       address:
@@ -1903,10 +1954,6 @@ definitions:
         type: string
         description: The Department of an Employee
         example: development
-      id:
-        type: string
-        description: Unique ID of an Employee
-        example: fgfhjsddctybnjgjh
       name:
         type: string
         description: Name of an Employee
@@ -1918,11 +1965,9 @@ definitions:
     example:
       address: Bangalore
       department: development
-      id: fgfhjsddctybnjgjh
       name: shiva
       skills: golang, docker
     required:
-    - id
     - name
     - department
     - address

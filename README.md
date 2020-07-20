@@ -36,6 +36,8 @@ https://github.com/shivakumar5/empfetcher/blob/master/empfetcher.go
 we will initliaze all the clients, endpoints and services in main.go, below is the link:
 https://github.com/shivakumar5/empfetcher/blob/master/cmd/empfetcher/main.go
 
+## Folder Structure
+![Alt text](screenshots/Folder.png?raw=true "")
 
 ## Execute in Local
 
@@ -90,19 +92,25 @@ Usage of ./empfetcher:
  **empfetcher** Service base URL: **http://localhost:8080/api/v1/employees/**
  
  * Add - Adds a new employee record
+ ![Alt text](screenshots/Add.png?raw=true "")
  
  * Update - Updates existing employee record
  It is not yet implemented due to time constrains. here, the multipart upload has to be implemented
  
  * List - Lists all the employee records
+ ![Alt text](screenshots/List.png?raw=true "")
  
  * Show- Shows the employee record based on id
+  ![Alt text](screenshots/Show.png?raw=true "")
  
  * Delete - Deletes employee record - **softDelete** if **permdelete** flag is not passed.
+![Alt text](screenshots/Delete.png?raw=true "")
  
  * Restore - Restores softDeleted employee record
+![Alt text](screenshots/Restore.png?raw=true "")
  
  * Viewdeleted - Lists all the deactived employee records
+![Alt text](screenshots/View.png?raw=true "")
  
  * Search - Not yet implemented due to time constraints
  

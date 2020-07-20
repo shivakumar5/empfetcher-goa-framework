@@ -15,7 +15,7 @@ https://github.com/shivakumar5/empfetcher/blob/master/design/design.go
 The Service has below endpoints:
 
 * Add
-* Update (YTBD)
+* Update
 * List
 * Show
 * Delete
@@ -102,10 +102,7 @@ Usage of ./empfetcher:
  ![Alt text](screenshots/Add.png?raw=true "")
  
  * Update - Updates existing employee record
- It is **Not yet implemented** due to time constrains. here, the multipart upload has to be implemented.
-
-
-
+ ![Alt text](screenshots/Update.png?raw=true "")
  
  * List - Lists all the employee records
  ![Alt text](screenshots/List.png?raw=true "")

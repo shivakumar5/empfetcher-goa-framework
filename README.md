@@ -1,5 +1,5 @@
 # empfetcher
-This repo contains code for RESTful API Services
+This repo contains code for RESTful API Services using **Goa** framework
 
 
 ## Design file

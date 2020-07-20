@@ -43,7 +43,9 @@ https://github.com/shivakumar5/empfetcher/blob/master/cmd/empfetcher/main.go
 ## Execute in Local
 
 To execute it in Local, run '**go build cmd/empfecther/main.go cmd/empfecther/http.go**'
+
 It will generate the binary file called '**empfetcher**', run the binary file like '**./empfetcher**' which will start running in default port **8080**
+
 **Note:** If you want to change the default port, use flag options. execute below command, it will show the different flags available for service(taken care by goa based on our implementation)
 
 **./empfecther --help**

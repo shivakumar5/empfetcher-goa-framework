@@ -29,7 +29,7 @@ func main() {
 
 		sqlServer = flag.String("sql-server", "localhost", "SQL server")
 		userName  = flag.String("username", "sa", "Username for SQL server")
-		password  = flag.String("password", "Flex1234", "Password for SQL server")
+		password  = flag.String("password", "", "Password for SQL server")
 		database  = flag.String("database", "employee", "Name of the SQL database")
 	)
 	flag.Parse()
